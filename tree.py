@@ -1,4 +1,5 @@
 from collections import deque
+from turtle import right
 from typing import Optional
 
 
@@ -10,6 +11,11 @@ class TreeNode:
 
     def __str__(self) -> str:
         return str(self.val)
+
+    def __eq__(self, other):
+        return self.val == other.val and \
+            self.left == other.left and \
+            self.right == other.right
 
     @staticmethod
     def from_list(values_list) -> Optional["TreeNode"]:
@@ -42,9 +48,11 @@ class TreeNode:
         q.append(root)
         while q:
             node = q.popleft()
-            res.append(node.val)
-            if node.left:
+            res.append(node.val if node else None)
+            if node:
                 q.append(node.left)
-            if node.right:
                 q.append(node.right)
-        return res
+        last_idx = len(res) - 1
+        while res[last_idx] is None:
+            last_idx -= 1
+        return res[: last_idx + 1]
