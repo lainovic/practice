@@ -28,6 +28,24 @@ class TreeNode:
         return res
 
     @staticmethod
+    def serialize(root: Optional["TreeNode"]) -> List[int]:
+        if not root:
+            return []
+        res = []
+        q = deque()
+        q.append(root)
+        while q:
+            node = q.popleft()
+            res.append(node.val if node else None)
+            if node:
+                q.append(node.left)
+                q.append(node.right)
+        last_idx = len(res) - 1
+        while res[last_idx] is None:
+            last_idx -= 1
+        return res[: last_idx + 1]
+
+    @staticmethod
     def deserialize(data: List[int]) -> Optional["TreeNode"]:
         if len(data) == 0:
             return None
@@ -48,21 +66,3 @@ class TreeNode:
                     node.right = TreeNode(right_val)
                     q.append(node.right)
         return root
-
-    @staticmethod
-    def serialize(root: Optional["TreeNode"]) -> List[int]:
-        if not root:
-            return []
-        res = []
-        q = deque()
-        q.append(root)
-        while q:
-            node = q.popleft()
-            res.append(node.val if node else None)
-            if node:
-                q.append(node.left)
-                q.append(node.right)
-        last_idx = len(res) - 1
-        while res[last_idx] is None:
-            last_idx -= 1
-        return res[: last_idx + 1]
