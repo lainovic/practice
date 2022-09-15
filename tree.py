@@ -1,6 +1,4 @@
-from collections import deque
-from turtle import right
-from typing import List, Optional
+from typing import Optional
 
 
 class TreeNode:
@@ -28,41 +26,35 @@ class TreeNode:
         return res
 
     @staticmethod
-    def serialize(root: Optional["TreeNode"]) -> List[int]:
-        if not root:
-            return []
+    def serialize(root: Optional["TreeNode"]) -> str:
         res = []
-        q = deque()
-        q.append(root)
-        while q:
-            node = q.popleft()
-            res.append(node.val if node else None)
+
+        def helper(node):
+            res.append(str(node.val) if node else "N")
             if node:
-                q.append(node.left)
-                q.append(node.right)
-        last_idx = len(res) - 1
-        while res[last_idx] is None:
-            last_idx -= 1
-        return res[: last_idx + 1]
+                helper(node.left)
+                helper(node.right)
+
+        helper(root)
+        return ",".join(res)
 
     @staticmethod
-    def deserialize(data: List[int]) -> Optional["TreeNode"]:
+    def deserialize(data: str) -> Optional["TreeNode"]:
         if len(data) == 0:
             return None
-        root = TreeNode(data[0])
-        q = deque([root])
-        i = 1
-        while i < len(data):
-            node = q.popleft()
-            left_val = data[i]
-            i += 1
-            if left_val is not None:
-                node.left = TreeNode(left_val)
-                q.append(node.left)
-            if i < len(data):
-                right_val = data[i]
-                i += 1
-                if right_val is not None:
-                    node.right = TreeNode(right_val)
-                    q.append(node.right)
-        return root
+        data = [int(i) if i != "N" else None for i in data.split(",")]
+        idx = 0
+
+        def helper():
+            nonlocal idx
+            val = data[idx]
+            if val is None:
+                idx += 1
+                return None
+            node = TreeNode(val)
+            idx += 1
+            node.left = helper()
+            node.right = helper()
+            return node
+
+        return helper()

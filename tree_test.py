@@ -14,11 +14,9 @@ class TestTree(unittest.TestCase):
         self.root.left.left.left = TreeNode(1)
         self.list = [5, 3, 6, 2, 4, None, None, 1]
 
-    def test_fromlist(self):
-        self.assertEqual(TreeNode.deserialize(self.list), self.root)
-
-    def test_tolist(self):
-        self.assertEqual(TreeNode.serialize(self.root), self.list)
+    def test(self):
+        self.assertEqual(TreeNode.deserialize(
+            TreeNode.serialize(self.root)), self.root)
 
 
 if __name__ == "__main__":
