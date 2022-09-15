@@ -48,11 +48,10 @@ class TreeNode:
         def helper():
             nonlocal idx
             val = data[idx]
+            idx += 1
             if val is None:
-                idx += 1
                 return None
             node = TreeNode(val)
-            idx += 1
             node.left = helper()
             node.right = helper()
             return node
