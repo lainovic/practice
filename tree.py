@@ -42,13 +42,10 @@ class TreeNode:
     def deserialize(data: str) -> Optional["TreeNode"]:
         if len(data) == 0:
             return None
-        data = [int(i) if i != "N" else None for i in data.split(",")]
-        idx = 0
+        data = iter([int(i) if i != "N" else None for i in data.split(",")])
 
         def helper():
-            nonlocal idx
-            val = data[idx]
-            idx += 1
+            val = next(data)
             if val is None:
                 return None
             node = TreeNode(val)
