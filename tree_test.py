@@ -15,10 +15,10 @@ class TestTree(unittest.TestCase):
         self.list = [5, 3, 6, 2, 4, None, None, 1]
 
     def test_fromlist(self):
-        self.assertEqual(TreeNode.from_list(self.list), self.root)
+        self.assertEqual(TreeNode.deserialize(self.list), self.root)
 
     def test_tolist(self):
-        self.assertEqual(TreeNode.to_list(self.root), self.list)
+        self.assertEqual(TreeNode.serialize(self.root), self.list)
 
 
 if __name__ == "__main__":
