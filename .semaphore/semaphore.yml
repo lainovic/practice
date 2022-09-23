@@ -5,12 +5,18 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: 'Block #1'
+  - name: Init
     task:
       jobs:
-        - name: 'Job #1'
+        - name: Checkout
           commands:
             - checkout
-        - name: 'Job #2'
+  - name: Tests
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Unit tests
           commands:
-            - ls -al
+            - make
