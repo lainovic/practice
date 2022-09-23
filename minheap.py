@@ -4,11 +4,14 @@ from copy import deepcopy
 class MinHeap:
     def __init__(self, capacity=1):
         self.capacity = capacity
-        self.size = 0  # just for practicing, not that it's needed with dynamic arrays as in here in Python
+        self._size = 0  # just for practicing, not that it's needed with dynamic arrays
         self.list = [0] * self.capacity
 
     def empty(self):
-        return self.size == 0
+        return self._size == 0
+
+    def size(self):
+        return self._size
 
     def heapify(self, nums):
         if len(nums) == 0:
@@ -16,7 +19,7 @@ class MinHeap:
         else:
             self.capacity = len(nums)
         self.list = [0] * self.capacity
-        self.size = 0
+        self._size = 0
         for num in nums:
             self.insert(num)
 
@@ -29,24 +32,19 @@ class MinHeap:
         if self.empty():
             return None
         res = self.list[0]
-        self.list[0] = self.list[self.size - 1]
-        self.size -= 1
+        self.list[0] = self.list[self._size - 1]
+        self._size -= 1
         self._sift_down()
-        return res
-
-    def remove_last(self):
-        res = self.list[-1]
-        self.size -= 1
         return res
 
     def insert(self, value):
         self._ensure_extra_capacity()
-        self.list[self.size] = value
-        self.size += 1
+        self.list[self._size] = value
+        self._size += 1
         self._sift_up()
 
     def _has_left_child(self, index):
-        return self._left_child_index(index) < self.size
+        return self._left_child_index(index) < self._size
 
     def _left_child(self, index):
         return self.list[self._left_child_index(index)]
@@ -56,7 +54,7 @@ class MinHeap:
         return 2 * parent + 1
 
     def _has_right_child(self, index):
-        return self._right_child_index(index) < self.size
+        return self._right_child_index(index) < self._size
 
     def right_child(self, index):
         return self.list[self._right_child_index(index)]
@@ -82,7 +80,7 @@ class MinHeap:
         self.list[idx_2] = tmp
 
     def _ensure_extra_capacity(self):
-        if self.size == self.capacity:
+        if self._size == self.capacity:
             self.capacity *= 2
             tmp = self.list
             self.list = [0] * self.capacity
@@ -90,7 +88,7 @@ class MinHeap:
                 self.list[i] = deepcopy(e)
 
     def _sift_up(self):
-        idx = self.size - 1
+        idx = self._size - 1
         while self._has_parent(idx) and self._parent(idx) > self.list[idx]:
             parent_idx = self._parent_idx(idx)
             self._swap(idx, parent_idx)
