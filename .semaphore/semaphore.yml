@@ -13,4 +13,4 @@ blocks:
             - checkout
         - name: 'Job #2'
           commands:
-            - make
+            - ls -al
