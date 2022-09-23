@@ -27,6 +27,11 @@ class TreeNode:
 
     @staticmethod
     def serialize(root: Optional["TreeNode"]) -> str:
+        """
+        Serialize the binary tree to an array that's stringified,
+        with the order of elements corresponding to the DFS pre-order traversal.
+        :return: A stringified array.
+        """
         res = []
 
         def helper(node):
@@ -40,6 +45,9 @@ class TreeNode:
 
     @staticmethod
     def deserialize(data: str) -> Optional["TreeNode"]:
+        """
+        Deserialize the tree that's previously serialized with :func:`~TreeNode.serialize` method.
+        """
         if len(data) == 0:
             return None
         data = iter([int(i) if i != "N" else None for i in data.split(",")])

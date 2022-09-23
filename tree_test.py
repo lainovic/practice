@@ -4,7 +4,7 @@ import unittest
 from tree import TreeNode
 
 
-class TestTree(unittest.TestCase):
+class TreeTest(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
         self.root = TreeNode(5)
