@@ -1,4 +1,4 @@
-from tree import TreeNode
+from src.tree import TreeNode
 
 
 def preorder_recursive(node, fn):
@@ -78,19 +78,19 @@ def postorder_iterative(root, fn):
 
 
 if __name__ == "__main__":
-    tree_pic = """
-                 5   
-                / \  
-               3   6 
-              / \    
-             2   4   
-            /        
-           1         
+    TREE_GRAPH = r"""
+                 5
+                / \
+               3   6
+              / \
+             2   4
+            /
+           1
            """
 
-    root = TreeNode.from_list([5, 3, 6, 2, 4, None, None, 1])
+    root = TreeNode.deserialize("5,3,2,1,N,N,N,4,N,N,6,N,N")
 
-    print(f"tree: {tree_pic}")
+    print(f"tree: {TREE_GRAPH}")
     print("\npreorder_recursive:")
     preorder_recursive(root, lambda x: print(x))
 

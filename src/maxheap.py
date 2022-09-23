@@ -1,4 +1,4 @@
-from minheap import MinHeap
+from src.minheap import MinHeap
 
 
 class MaxHeap:

@@ -1,7 +1,7 @@
 from copy import deepcopy
 import unittest
 
-from tree import TreeNode
+from src.tree import TreeNode
 
 
 class TreeTest(unittest.TestCase):

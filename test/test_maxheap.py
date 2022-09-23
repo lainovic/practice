@@ -1,8 +1,6 @@
-from copy import deepcopy
 import unittest
 
-from maxheap import MaxHeap
-
+from src.maxheap import MaxHeap
 
 class MaxHeapTest(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:

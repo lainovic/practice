@@ -1,7 +1,6 @@
-from copy import deepcopy
 import unittest
 
-from minheap import MinHeap
+from src.minheap import MinHeap
 
 
 class MinHeapTest(unittest.TestCase):
