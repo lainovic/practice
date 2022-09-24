@@ -1,3 +1,4 @@
+from re import A
 import unittest
 
 from src.minheap import MinHeap
@@ -41,6 +42,33 @@ class MinHeapTest(unittest.TestCase):
         self.insert_and_verify_min(mh, -4, -4)
         self.insert_and_verify_min(mh, 0, -4)
         self.insert_and_verify_min(mh, 4, -4)
+
+    def test_with_custom_predicate(self):
+        mh = MinHeap()
+        mh.heapify([(0, 9), (1, 8), (2, 7), (3, 7), (4, 6), (5, 12)],
+                   less_than_predicate=lambda x, y: x[0] < y[0])
+        self.assertFalse(mh.empty())
+        self.assertEqual(mh.size(), 6)
+        self.assertEqual(mh.extract_min(), (0, 9))
+        self.assertEqual(mh.size(), 5)
+        self.assertEqual(mh.extract_min(), (1, 8))
+        self.assertEqual(mh.size(), 4)
+        self.assertEqual(mh.extract_min(), (2, 7))
+        self.assertEqual(mh.size(), 3)
+        self.assertEqual(mh.extract_min(), (3, 7))
+        self.assertEqual(mh.size(), 2)
+        mh.insert((10, 10))
+        self.assertEqual(mh.size(), 3)
+        self.assertEqual(mh.extract_min(), (4, 6))
+        self.assertEqual(mh.size(), 2)
+        mh.insert((1, 1))
+        self.assertEqual(mh.size(), 3)
+        self.assertEqual(mh.extract_min(), (1, 1))
+        self.assertEqual(mh.size(), 2)
+        self.assertEqual(mh.extract_min(), (5, 12))
+        self.assertEqual(mh.size(), 1)
+        self.assertEqual(mh.extract_min(), (10, 10))
+        self.assertTrue(mh.empty())
 
 
 if __name__ == "__main__":
