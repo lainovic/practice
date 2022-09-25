@@ -39,8 +39,7 @@ class MaxHeapTest(unittest.TestCase):
         self.assertEqual(mh.extract_max(), 1)
         self.assertEqual(mh.size(), 0)
         self.assertTrue(mh.empty())
-        mh.heapify(
-            [6, 3, 1], greater_than_or_equal_predicate=lambda x, y: x < y)
+        mh.heapify([6, 3, 1], less_than_predicate=lambda x, y: x >= y)
         self.assertEqual(mh.size(), 3)
         self.assertEqual(mh.extract_max(), 1)
         self.assertEqual(mh.size(), 2)
@@ -69,7 +68,7 @@ class MaxHeapTest(unittest.TestCase):
     def test_with_custom_predicate(self):
         mh = MaxHeap()
         mh.heapify([(0, 9), (1, 8), (2, 7), (3, 7), (4, 6), (5, 12)],
-                   greater_than_or_equal_predicate=lambda x, y: x[0] >= y[0],
+                   less_than_predicate=lambda x, y: x[0] < y[0],
                    negative=lambda x: ((-1) * x[0], x[1]))
         self.assertFalse(mh.empty())
         self.assertEqual(mh.size(), 6)

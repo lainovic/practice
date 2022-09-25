@@ -9,7 +9,7 @@ class MinHeap:
     def __init__(self, capacity: int = 1, less_than_predicate: Callable[[T, T], bool] = None) -> None:
         self.capacity = capacity
         self._size = 0  # just for practicing, not that it's needed with dynamic arrays
-        self.list = [0] * self.capacity
+        self.list = [None] * self.capacity
         self.__lt__ = less_than_predicate if less_than_predicate is not None else __lt__
 
     def empty(self) -> bool:
@@ -24,7 +24,7 @@ class MinHeap:
             self.capacity = 1
         else:
             self.capacity = len(values)
-        self.list = [0] * self.capacity
+        self.list = [None] * self.capacity
         self._size = 0
         for val in values:
             self.insert(val)
