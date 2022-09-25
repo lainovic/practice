@@ -1,6 +1,3 @@
-from ast import Call
-from tkinter import N
-from tkinter.messagebox import NO
 from typing import Callable, TypeVar
 from src.minheap import MinHeap
 from operator import __ge__
