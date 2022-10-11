@@ -1,11 +1,11 @@
-# A `VideoEditor` class that has its closing behavior customized via before/after hooks,
-# effectively using the Template pattern.
+# A `VideoEditor` class that has parts of functionality invoked via
+# different command objects that can be executed by anyone, anytime.
 #
 # Using the Big4 jargon:
-# Window -> Context
-# Compressor -> Strategy
-# SomeCompressorA -> ConcreteStrategyA
-
+# VideoEditor -> Receiver
+# Command -> Command
+# ChangeContrastCommand -> ConcreteCommand
+# A Tk::Button -> Invoker
 
 from abc import ABC, abstractmethod
 from cmath import log

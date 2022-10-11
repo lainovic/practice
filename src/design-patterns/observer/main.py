@@ -1,10 +1,11 @@
-# An `Editor` class that has its undo/redo functionaliy decoupled
-# via History class and Snapshot class that is used within both.
+# A `DataSource` class that has its changes broadcasted to other classes
+# that get notified and can react appropriately, using the observer pattern.
 #
 # Using the Big4 jargon:
-# Editor -> Originator
-# Snapshot -> Memento
-# History -> Caretaker
+# DataSource -> Observable
+# Chart -> Observer
+#
+# Same for `Stock`.
 
 from abc import ABC, abstractmethod
 from re import S

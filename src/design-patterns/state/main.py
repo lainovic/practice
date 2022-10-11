@@ -1,6 +1,7 @@
 # A `Canvas` class that has its tools implemented via polymoprhism,
 # effectively using the State pattern.
-# ... or maybe this is more an example of a Strategy pattern? The states don't know about each other here.
+#
+# :note: Or maybe this is more an example of a Strategy pattern? The states don't know about each other here.
 #
 # Using the Big4 jargon:
 # Canvas -> Context

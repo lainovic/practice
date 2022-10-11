@@ -1,3 +1,15 @@
+# A `DialogBox` class that reacts when any `UIControl` changes and orchestrates the interaction between them,
+# effectively using the Mediator pattern.
+#
+# Using the Big4 jargon:
+# DialogBox -> Mediator
+# ArticlesBox -> ConcreteMediator
+# UIControl -> Colleague
+# ListBox -> ConcreteColleague
+#
+# V2 version of these classes are using the Observer pattern to effectively implement the Mediator pattern.
+
+
 from abc import ABC, abstractmethod
 from re import S, T
 from tkinter import E
@@ -91,7 +103,7 @@ class UIControlV2:
     def add_event_hander(self, event_handler: EventHandler) -> None:
         self.event_handlers.append(event_handler)
 
-    def _notify(self):
+    def notify(self):
         for handler in self.event_handlers:
             handler.handle()
 
@@ -103,7 +115,7 @@ class ListBoxV2(UIControlV2):
 
     def set_selection(self, selection: str) -> None:
         self.selection = selection
-        self._notify()
+        self.notify()
 
 
 class TextBoxV2(UIControlV2):
@@ -113,7 +125,7 @@ class TextBoxV2(UIControlV2):
 
     def set_content(self, content: str) -> None:
         self.content = content
-        self._notify()
+        self.notify()
 
 
 class ButtonV2(UIControlV2):
@@ -123,7 +135,7 @@ class ButtonV2(UIControlV2):
 
     def set_enabled(self, enabled: bool) -> None:
         self.enabled = enabled
-        self._notify()
+        self.notify()
 
 
 class CheckBoxV2(UIControlV2):
@@ -133,7 +145,7 @@ class CheckBoxV2(UIControlV2):
 
     def set_checked(self, checked) -> None:
         self.checked = checked
-        self._notify()
+        self.notify()
 
 
 class SignUpDialogBox():
@@ -148,11 +160,11 @@ class SignUpDialogBox():
         self.checkbox = CheckBoxV2()
         self.signup_button = ButtonV2()
 
-        enable_button_action = create_event_handler(
-            action=self.on_control_changed)
-        self.username_box.add_event_hander(enable_button_action)
-        self.password_box.add_event_hander(enable_button_action)
-        self.checkbox.add_event_hander(enable_button_action)
+        enable_button_handler = create_event_handler(self.on_control_changed)
+
+        self.username_box.add_event_hander(enable_button_handler)
+        self.password_box.add_event_hander(enable_button_handler)
+        self.checkbox.add_event_hander(enable_button_handler)
 
     def simulate_demo(self):
         print(f"Button status: {self.signup_button.enabled}")
@@ -184,5 +196,5 @@ if __name__ == "__main__":
 
     print('------------------------------------------------------------------------')
 
-    dialog = SignUpDialogBox()
-    dialog.simulate_demo()
+    dialog_v2 = SignUpDialogBox()
+    dialog_v2.simulate_demo()
