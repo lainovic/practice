@@ -1,12 +1,16 @@
+# Allows defining a template (skeleton) for an operation.
+# Specific steps will then be implemented in subclasses.
+#
 # A `Window` class that has its closing behavior customized via before/after hooks,
 # effectively using the Template pattern.
 #
 # Using the Big4 jargon:
-# Window -> Context
-# Compressor -> Strategy
-# SomeCompressorA -> ConcreteStrategyA
 #
-# Same for `Task`
+# Window -> AbstractClass
+# XWindow -> ConcreteClass
+#
+# Same for `Task`.
+#
 
 from abc import ABC, abstractmethod
 from contextlib import AbstractAsyncContextManager
@@ -62,13 +66,13 @@ class XWindow(Window):
 
 
 if __name__ == "__main__":
+    xwin = XWindow()
+    xwin.close()
+
+    print('------------------------------------------------------------------------')
+
     task = TransferMoney()
     task.execute()
 
     task = GenerateReport()
     task.execute()
-
-    print('------------------------------------------------------------------------')
-
-    xwin = XWindow()
-    xwin.close()

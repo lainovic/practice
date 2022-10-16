@@ -1,18 +1,19 @@
+# Mediator: Allows an object to encapsulate the communication between other objects.
+#
 # A `DialogBox` class that reacts when any `UIControl` changes and orchestrates the interaction between them,
 # effectively using the Mediator pattern.
 #
 # Using the Big4 jargon:
+#
 # DialogBox -> Mediator
 # ArticlesBox -> ConcreteMediator
 # UIControl -> Colleague
 # ListBox -> ConcreteColleague
 #
 # V2 version of these classes are using the Observer pattern to effectively implement the Mediator pattern.
-
+#
 
 from abc import ABC, abstractmethod
-from re import S, T
-from tkinter import E
 
 
 class UIControl:
@@ -95,6 +96,10 @@ class EventHandler(ABC):
     def handle(self):
         pass
 
+#
+# UIControlV2 is observable.
+#
+
 
 class UIControlV2:
     def __init__(self) -> None:
@@ -148,7 +153,11 @@ class CheckBoxV2(UIControlV2):
         self.notify()
 
 
-class SignUpDialogBox():
+#
+# DialogBoxV2 observes the changes in its kids.
+#
+
+class DialogBoxV2():
     def __init__(self) -> None:
         def create_event_handler(action):
             def create_type(**kwargs):
@@ -196,5 +205,5 @@ if __name__ == "__main__":
 
     print('------------------------------------------------------------------------')
 
-    dialog_v2 = SignUpDialogBox()
+    dialog_v2 = DialogBoxV2()
     dialog_v2.simulate_demo()

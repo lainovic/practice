@@ -1,19 +1,23 @@
-# An `Editor` class that has its undo/redo functionaliy decoupled
+# Memento: Allows restoring an object to a previous state.
+#
+# An `Editor` class  has its undo/redo functionaliy decoupled
 # via History class and Snapshot class that is used within both.
 #
 # Using the Big4 jargon:
+#
 # Editor -> Originator
 # Snapshot -> Memento
 # History -> Caretaker
+#
 
-import copy
+from copy import copy
 
 
 class Editor:
     def __init__(self) -> None:
         self.default_state = Editor.Snapshot(
             content="", font_name="Sans Serif", font_size=16)
-        self.current_snapshot = copy.deepcopy(self.default_state)
+        self.current_snapshot = copy(self.default_state)
         self.history = Editor.History()
 
     def __str__(self) -> str:
@@ -47,10 +51,10 @@ class Editor:
         self._restore(self.history.pop())
 
     def _save(self):
-        self.history.push(copy.deepcopy(self.current_snapshot))
+        self.history.push(copy(self.current_snapshot))
 
     def _restore(self, state):
-        self.current_snapshot = state if state else copy.deepcopy(
+        self.current_snapshot = state if state else copy(
             self.default_state)
 
     class History:
@@ -76,8 +80,6 @@ def test_editor_method(editor, editor_method, *args):
     for arg in args:
         editor_method(arg)
         print(f"* editor.{editor_method.__name__}({arg}) -> {editor}")
-        editor.undo()
-        print(f"* editor.undo() -> {editor}")
     print("------------")
     print("")
 

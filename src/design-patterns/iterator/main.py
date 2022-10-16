@@ -1,11 +1,15 @@
-# A `BrwoserHistory` class that has iterating over it supported by having providing the  `Iterator` interface,
+# Iterator: Allows iterating over an object without having to expose the object’s internal structure (which may change in the future).
+#
+# A `BrwoserHistory` class has an iteration functionality supported by implementing the  `Iterator` interface,
 # hence utilizing the Iterator Pattern.
 #
 # Using the Big4 jargon:
+#
 # BrowseHistory -> Iterable
 # Iterator -> Iterator
 #
-# Same for `ProductCollection`
+# Same for `ProductCollection`.
+#
 
 from abc import ABC, abstractmethod
 from random import random

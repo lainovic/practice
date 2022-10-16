@@ -1,8 +1,11 @@
+# Visitor: Allows adding new operations to an object structure without modifying it.
+#
 # A `HTMLDocument` class, having a fixed set of `HTMLNode` implementations,
 # adds new functionality to these nodes without changing their classes,
 # effectively using the Visitor pattern.
 #
 # Using the Big4 jargon:
+#
 # HTMLNode -> Element
 # HeadingNode -> ConcreteElementA
 # Operation -> Visitor

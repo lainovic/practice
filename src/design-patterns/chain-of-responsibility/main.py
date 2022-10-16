@@ -1,10 +1,14 @@
-# A `WebBrowser` class that has handles the request processing pipeline with
-# the chain-of-responsibility pattern
+# Chain of Responsibility: Allows building a chain of objects to process a request.
+#
+# A `WebBrowser` class handles the request by processing it through the pipeline consisting of various handlers,
+# effetively using the chain-of-responsibility pattern.
 #
 # Using the Big4 jargon:
+#
 # WebBrowser -> Sender
 # Handler -> Handler
 # SomeHandlerA -> Receiver
+#
 
 
 from abc import ABC, abstractmethod
@@ -31,32 +35,33 @@ class Handler(ABC):
         self.next = handler
         return handler
 
-    def handle(self, request: Request) -> Optional[Request]:
+    def handle(self, request: Request) -> Request:
         if self.next:
             return self.next.handle(request)
-        return None
+        return request
 
 
 class Authenticator(Handler):
-    def handle(self, request: Request) -> Optional[Request]:
+    def handle(self, request: Request) -> Request:
         print("Authenticating...")
         return super().handle(request)
 
 
 class Decryptor(Handler):
-    def handle(self, request: Request) -> Optional[Request]:
+    def handle(self, request: Request) -> Request:
         print("Decrypting...")
         return super().handle(request)
 
 
 class Decompressor(Handler):
-    def handle(self, request: Request) -> Optional[Request]:
+    def handle(self, request: Request) -> Request:
         print("Decompression failed, not continuing the chain.")
         return request
+        # return super().handle(request)
 
 
 class Logger(Handler):
-    def handle(self, request: Request) -> Optional[Request]:
+    def handle(self, request: Request) -> Request:
         print("Logging...")
         return super().handle(request)
 

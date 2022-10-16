@@ -1,14 +1,20 @@
-# A `VideoEditor` class that has parts of functionality invoked via
-# different command objects that can be executed by anyone, anytime.
+# Command: Allows decouple a sender from a receiver.
+# The sender will talk to the receiver through a command.
+# Commands can be undone and persisted.
+#
+# A `VideoEditor` class has parts of functionality invoked via
+# different command objects that can be executed by anyone anytime.
 #
 # Using the Big4 jargon:
+#
 # VideoEditor -> Receiver
 # Command -> Command
 # ChangeContrastCommand -> ConcreteCommand
 # A Tk::Button -> Invoker
+#
 
 from abc import ABC, abstractmethod
-from cmath import log
+from copy import copy
 from tkinter import *
 
 
@@ -28,6 +34,16 @@ class Command(ABC):
     @abstractmethod
     def execute(self):
         pass
+
+
+class ChangeContrastCommand(Command):
+    def __init__(self, editor, contrast) -> None:
+        self.editor = editor
+        self.contrast = contrast
+
+    def execute(self):
+        self.editor.contrast = self.contrast
+        print(self.editor)
 
 
 class UndoableCommand(Command):
@@ -50,13 +66,37 @@ class History:
         return len(self.cmds) == 0
 
 
+class AddTextCommand(UndoableCommand):
+    def __init__(self, editor: VideoEditor, history: History, text: str) -> None:
+        self.editor = editor
+        self.history = history
+        self.text = text
+        self.counter = 0
+        self.prev_text = ""
+
+    def execute(self):
+        self.prev_text = self.editor.text
+        self.text += str(self.counter)
+        self.counter += 1
+        self.editor.text = self.text
+        self.history.push(copy(self))
+        print(self.editor)
+
+    def undo(self):
+        self.editor.text = self.prev_text
+
+
 class UndoCommand():
     def __init__(self, history: History) -> None:
         self.history = history
 
-    def execute(self) -> None:
+    def execute(self) -> bool:
         if not self.history.empty():
             self.history.pop().undo()
+            return True
+        else:
+            print("\nHistory empty!")
+            return False
 
 
 class CompositeCommand(Command):
@@ -71,33 +111,6 @@ class CompositeCommand(Command):
             cmd.execute()
 
 
-class AddTextCommand(UndoableCommand):
-    def __init__(self, editor: VideoEditor, history: History, text: str) -> None:
-        self.editor = editor
-        self.history = history
-        self.text = text
-        self.prev_text = ""
-
-    def execute(self):
-        self.prev_text = self.editor.text
-        self.editor.text = self.text
-        self.history.push(self)
-        print(self.editor)
-
-    def undo(self):
-        self.editor.text = self.prev_text
-
-
-class ChangeContrastCommand(Command):
-    def __init__(self, editor, contrast) -> None:
-        self.editor = editor
-        self.contrast = contrast
-
-    def execute(self):
-        self.editor.contrast = self.contrast
-        print(self.editor)
-
-
 if __name__ == "__main__":
     editor = VideoEditor()
     editor.text = "lorem ipsum"
@@ -106,40 +119,25 @@ if __name__ == "__main__":
     change_contrast_cmd = ChangeContrastCommand(editor, 1)
 
     history = History()
-    add_text_cmd = AddTextCommand(editor, history, "foo bar")
+    add_text_cmd = AddTextCommand(editor, history, "foo bar ")
 
     undo_cmd = UndoCommand(history)
 
     all_cmd = CompositeCommand()
     all_cmd.add(change_contrast_cmd)
     all_cmd.add(add_text_cmd)
-    all_cmd.add(undo_cmd)
 
     window = Tk()
-    window.title("Command Pattern in Action")
+    window.title("Video Editor commands")
     window.geometry('350x200')
 
-    def on_change_contrast_clicked():
-        change_contrast_cmd.execute()
-
     change_contrast_btn = Button(
-        window, text="Change contrast to 1", command=on_change_contrast_clicked)
+        window, text="Change contrast to 1 (Can't undo.)", command=lambda: change_contrast_cmd.execute())
     change_contrast_btn.grid(sticky="W", column=1, row=0)
 
-    def on_add_text_clicked():
-        add_text_cmd.execute()
-
     add_text_btn = Button(
-        window, text="Change text to 'foo bar'", command=on_add_text_clicked)
+        window, text="Change text to foo bar + number (Can undo.)", command=lambda: add_text_cmd.execute())
     add_text_btn.grid(sticky="W", column=1, row=1)
-
-    def on_undo_clicked():
-        undo_cmd.execute()
-        print(editor)
-
-    undo_btn = Button(window, text="Undo",
-                      command=on_undo_clicked)
-    undo_btn.grid(sticky="W", column=1, row=2)
 
     def on_do_all_clicked():
         all_cmd.execute()
@@ -147,6 +145,14 @@ if __name__ == "__main__":
 
     do_all_btn = Button(window, text="Do all the above",
                         command=on_do_all_clicked)
-    do_all_btn.grid(sticky="W", column=1, row=3)
+    do_all_btn.grid(sticky="W", column=1, row=2)
+
+    def on_undo_clicked():
+        if undo_cmd.execute():
+            print(editor)
+
+    undo_btn = Button(window, text="Undo",
+                      command=on_undo_clicked)
+    undo_btn.grid(sticky="W", column=1, row=3)
 
     window.mainloop()

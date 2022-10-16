@@ -1,14 +1,18 @@
-# A `Canvas` class that has its tools implemented via polymoprhism,
+# State: Allows an object to behave differently depending on the state it is in.
+#
+# A `Canvas` class has its tools implemented via polymoprhism,
 # effectively using the State pattern.
 #
 # :note: Or maybe this is more an example of a Strategy pattern? The states don't know about each other here.
 #
 # Using the Big4 jargon:
+#
 # Canvas -> Context
 # Tool -> State
 # SomeToolA -> ConcreteStateA
 #
-# Same for `DirectionService`
+# Same for `DirectionService`.
+#
 
 from abc import ABC, abstractmethod
 from enum import Enum

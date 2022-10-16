@@ -1,11 +1,15 @@
-# A `DataSource` class that has its changes broadcasted to other classes
-# that get notified and can react appropriately, using the observer pattern.
+# Observer: Allows an object notify other objects when its state changes.
+#
+# A `DataSource` class has its changes broadcasted to other classes
+# that get notified and react appropriately.
 #
 # Using the Big4 jargon:
+#
 # DataSource -> Observable
 # Chart -> Observer
 #
 # Same for `Stock`.
+#
 
 from abc import ABC, abstractmethod
 from re import S

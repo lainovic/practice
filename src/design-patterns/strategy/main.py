@@ -1,12 +1,16 @@
-# A `ChatClient` class that has its compression algorithm offloaded to the other class,
+# Strategy: Allows passing different algorithms (behaviours) to an object.
+#
+# A `ChatClient` class has its compression algorithm offloaded to other classes,
 # effectively using the Strategy pattern.
 #
 # Using the Big4 jargon:
+#
 # ChatClient -> Context
 # Compressor -> Strategy
 # SomeCompressorA -> ConcreteStrategyA
 #
-# Same for `ImageStorage`
+# Same for `ImageStorage`.
+#
 
 from abc import ABC, abstractmethod
 from re import S
