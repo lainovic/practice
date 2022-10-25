@@ -7,10 +7,10 @@ without resorting to some weird casting and checking methods.
 GoF diagram:
 ```mermaid
 classDiagram
-Client..>Prototype
-Prototype<|--ConcretePrototype
-Prototype: +clone()
-ConcretePrototype: +clone()
+    Client..>Prototype
+    Prototype<|--ConcretePrototype
+    Prototype: +clone()
+    ConcretePrototype: +clone()
 ```
 """
 
