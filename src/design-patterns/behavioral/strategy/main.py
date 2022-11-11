@@ -97,7 +97,7 @@ if __name__ == "__main__":
     img_storage.store("kenobi.png")
     img_storage.store("kenobi.jpg", JPEGCompressor(), BWFilter())
 
-    print('------------------------------------------------------------------------')
+    print("------------------------------------------------------------------------")
 
     chat_client = ChatClient()
     chat_client.send("Hello there!")

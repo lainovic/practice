@@ -203,7 +203,7 @@ if __name__ == "__main__":
     dialog = ArticlesBox()
     dialog.simulate_demo()
 
-    print('------------------------------------------------------------------------')
+    print("------------------------------------------------------------------------")
 
     dialog_v2 = DialogBoxV2()
     dialog_v2.simulate_demo()

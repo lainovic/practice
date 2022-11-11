@@ -130,7 +130,7 @@ if __name__ == "__main__":
     while it.has_next():
         print(it.next())
 
-    print('------------------------------------------------------------------------')
+    print("------------------------------------------------------------------------")
 
     product_collection = ProductCollection()
     product_collection.add(Product(uuid.uuid4(), "foo"))

@@ -142,7 +142,7 @@ if __name__ == "__main__":
     document.execute(HighlightOperation())
     document.execute(PlainttextOperation())
 
-    print('------------------------------------------------------------------------')
+    print("------------------------------------------------------------------------")
 
     wav_file = WavFile()
     wav_file.read("https://foo.bar/xyz")
