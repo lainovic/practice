@@ -41,6 +41,48 @@ class TreeTest(unittest.TestCase):
         r.right.right = TreeNode(42)
         self.assertNotEqual(r, cpy)
 
+    def test_get_values_at_distance(self):
+        r = TreeNode(1)
+        r.add_right(10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+
+        self.assertEqual(r.get_values_at_distance(0), [1])
+        self.assertEqual(r.get_values_at_distance(1), [10])
+        self.assertEqual(r.get_values_at_distance(2), [5, 20])
+        self.assertEqual(r.get_values_at_distance(3), [])
+
+    def test_size(self):
+        r = TreeNode(1)
+        self.assertEqual(r.size(), 1)
+        r.add_right(10)
+        self.assertEqual(r.size(), 2)
+        r.right.add_left(5)
+        r.right.add_right(20)
+        self.assertEqual(r.size(), 4)
+        r.right.right = None
+        self.assertEqual(r.size(), 3)
+
+    def test_count_leaves(self):
+        r = TreeNode(1)
+        self.assertEqual(r.count_leaves(), 1)
+        r.add_right(10)
+        self.assertEqual(r.count_leaves(), 1)
+        r.right.add_left(5)
+        r.right.add_right(20)
+        self.assertEqual(r.count_leaves(), 2)
+        r.right.right = None
+        self.assertEqual(r.count_leaves(), 1)
+
+    def test_is_valid(self):
+        r = TreeNode(1)
+        r.add_right(10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+        self.assertTrue(r.is_valid())
+        r.right.left.add_left(15)
+        self.assertFalse(r.is_valid())
+
     def test_insert(self):
         r = TreeNode(1)
         r.add_right(10)
@@ -73,6 +115,36 @@ class TreeTest(unittest.TestCase):
         self.assertEqual(None, r.find(12))
         self.assertEqual(None, r.find(26))
         self.assertEqual(None, r.find(7))
+
+    def test_height(self):
+        r = TreeNode(1)
+        r.add_right(10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+
+        self.assertEqual(2, r.height())
+
+    def test_min(self):
+        r = TreeNode(1)
+        r.add_right(10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+
+        self.assertEqual(1, r.min())
+        self.assertEqual(1, r.min_bst())
+        self.assertEqual(5, r.right.left.min())
+        self.assertEqual(5, r.right.left.min_bst())
+
+    def test_max(self):
+        r = TreeNode(1)
+        self.assertEqual(r.max(), 1)
+        r.add_right(10)
+        self.assertEqual(r.max(), 10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+        self.assertEqual(r.max(), 20)
+        r.right.right = None
+        self.assertEqual(r.max(), 10)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-from re import A
 import unittest
 
 from src.minheap import MinHeap

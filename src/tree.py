@@ -1,3 +1,4 @@
+import math
 from typing import Optional
 
 
@@ -17,19 +18,20 @@ class TreeNode:
 
     def insert(self, val) -> None:
         print(f"-----> Inserting {val}...")
+        new_node = TreeNode(val)
         curr = self
         while True:
             if val >= curr.val:
                 if curr.right is None:
-                    print(f"-----> Found it! Insert to right of {curr}.")
-                    curr.right = TreeNode(val)
+                    print(f"-----> Insert to right of {curr}.")
+                    curr.right = new_node
                     return
                 print(f"-----> {val} >= {curr.val}, go right...")
                 curr = curr.right
             elif val < curr.val:
                 if curr.left is None:
-                    print(f"-----> Found it! Insert to left of {curr}.")
-                    curr.left = TreeNode(val)
+                    print(f"-----> Insert to left of {curr}.")
+                    curr.left = new_node
                     return
                 print(f"-----> {val} < {curr.val}, go left...")
                 curr = curr.left
@@ -37,25 +39,96 @@ class TreeNode:
     def find(self, val) -> Optional["TreeNode"]:
         print(f"-----> Finding {val}...")
         curr = self
-        while True:
+        while curr is not None:
             if val > curr.val:
-                if curr.right is None:
-                    print(
-                        f"-----> {val} should've been placed right to {curr.val}, but wasn't found! Returning None.")
-                    return None
                 print(f"-----> {val} > {curr.val}, go right...")
                 curr = curr.right
             elif val < curr.val:
-                if curr.left is None:
-                    print(
-                        f"-----> {val} should've been placed left to {curr.val}, but wasn't found! Returning None.")
-                    curr.left = TreeNode(val)
-                    return
                 print(f"-----> {val} < {curr.val}, go left...")
                 curr = curr.left
             else:
-                print(f"-----> Found it! Returning {curr}.")
+                print(
+                    f"-----> Found it. Returning the object {curr}.")
                 return curr
+        print(f"-----> {val} wasn't found. Returning None.")
+        return None
+
+    def size(self):
+        res = 0
+
+        def helper(node):
+            if node is None:
+                return
+            nonlocal res
+            res += 1
+            helper(node.left)
+            helper(node.right)
+
+        helper(self)
+        return res
+
+    def count_leaves(self):
+        res = 0
+
+        def helper(node):
+            if node is None:
+                return
+            if node.left is None and node.right is None:
+                nonlocal res
+                res += 1
+                return
+            helper(node.left)
+            helper(node.right)
+
+        helper(self)
+        return res
+
+    def height(self) -> int:
+        def helper(node):
+            if node is None:
+                print(f"-----> height(None) -> -1")
+                return -1
+            res = 1 + max(helper(node.left), helper(node.right))
+            print(
+                f"-----> height({node}) -> {res}")
+            return res
+        print(f"-----> Finding the height of {self}...")
+        return helper(self)
+
+    def max(self):
+        res = -math.inf
+
+        def helper(node):
+            if node is None:
+                return
+            nonlocal res
+            res = max(res, node.val)
+            helper(node.left)
+            helper(node.right)
+
+        helper(self)
+        return res
+
+    def min(self) -> Optional[int]:
+        def helper(node):
+            if node is None:
+                print(f"-----> min(None) -> Inf")
+                return math.inf
+            res = min(node.val, helper(node.left), helper(node.right))
+            print(
+                f"-----> min({node}) -> {res}")
+            return res
+        print(f"-----> Finding the min starting from {self}...")
+        return helper(self)
+
+    def min_bst(self) -> int:
+        print(f"-----> Finding the height of BST {self}...")
+        curr = self
+        while curr is not None:
+            if curr.left is None:
+                print(f"-----> Found the leftmost node => min -> {curr.val}")
+                return curr.val
+            curr = curr.left
 
     def __str__(self) -> str:
         out = f"{self.val}"
@@ -68,19 +141,88 @@ class TreeNode:
         return out
 
     def __eq__(self, other):
-        def xor(a, b):
-            return bool(a) != bool(b)
-
         if other is None:
             return False
-        res = self.val == other.val
-        if xor(self.left, other.left):
-            return False
-        res = res and self.left == other.left
-        if xor(self.right, other.right):
-            return False
-        res = res and self.right == other.right
+        return self.val == other.val \
+            and self.left == other.left \
+            and self.right == other.right
+
+    def get_values_at_distance(self, k):
+        res = []
+
+        def helper(node, dist):
+            if node is None:
+                return
+            if dist <= 0:
+                res.append(node.val)
+                return
+            helper(node.left, dist - 1)
+            helper(node.right, dist - 1)
+
+        helper(self, k)
         return res
+
+    def is_valid(self):
+        def is_within(left_val, node, right_val):
+            if node is None:
+                return True
+            return left_val <= node.val <= right_val and \
+                is_within(left_val, node.left, node.val) and \
+                is_within(node.val, node.right, right_val)
+
+        return is_within(-math.inf, self, math.inf)
+
+        # brute force 1:
+        # def less_than(node, val):
+        #     if node is None:
+        #         return True
+        #     return val <= node.val and less_than(node.left, val) and less_than(node.right, val)
+        # def greater_than(node, val):
+        #     if node is None:
+        #         return True
+        #     return val >= node.val and greater_than(node.left, val) and greater_than(node.right, val)
+        # def valid(node):
+        #     if node is None:
+        #         return True
+        #     return greater_than(node.left, node.val) and less_than(node.right, node.val) and \
+        #         valid(node.left) and valid(node.right)
+        # return valid(self)
+
+        # brute force 2:
+        # def find_min(node):
+        #     if node.left is None:
+        #         return node.val
+        #     return find_min(node.left)
+        # def find_max(node):
+        #     while node.right is not None:
+        #         node = node.right
+        #     return node.val
+        # def helper(node):
+        #     if node is None:
+        #         return True
+        #     if node.left and find_max(node.left) > node.val:
+        #         return False
+        #     if node.right and find_min(node.right) < node.val:
+        #         return False
+        #     return helper(node.left) and helper(node.right)
+        # return helper(self)
+
+        # brute force 3:
+        # arr = []
+
+        # def helper(node):
+        #     if node is None:
+        #         return
+        #     if helper(node.left) is False:
+        #         return False
+        #     if len(arr) > 0 and arr[-1] > node.val:
+        #         return False
+        #     arr.append(node.val)
+        #     if helper(node.right) is False:
+        #         return False
+        #     return True
+
+        return helper(self)
 
     @staticmethod
     def serialize(root: Optional["TreeNode"]) -> str:
