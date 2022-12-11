@@ -116,6 +116,22 @@ class TreeTest(unittest.TestCase):
         self.assertEqual(None, r.find(26))
         self.assertEqual(None, r.find(7))
 
+    def test_contains(self):
+        r = TreeNode(1)
+        r.add_right(10)
+        r.right.add_left(5)
+        r.right.add_right(20)
+
+        self.assertTrue(1 in r)
+        self.assertTrue(10 in r)
+        self.assertTrue(5 in r)
+        self.assertTrue(20 in r)
+
+        self.assertFalse(3 in r)
+        self.assertFalse(12 in r)
+        self.assertFalse(26 in r)
+        self.assertFalse(7 in r)
+
     def test_height(self):
         r = TreeNode(1)
         r.add_right(10)
@@ -134,6 +150,29 @@ class TreeTest(unittest.TestCase):
         self.assertEqual(1, r.min_bst())
         self.assertEqual(5, r.right.left.min())
         self.assertEqual(5, r.right.left.min_bst())
+
+    def test_siblings(self):
+        r = TreeNode(1)
+        r.add_left(5).add_left(7)
+        r.add_right(6).add_right(4)
+        r.right.add_left(3)
+
+        self.assertTrue(r.are_siblings(5, 6))
+        self.assertTrue(r.are_siblings(4, 3))
+        self.assertFalse(r.are_siblings(4, 6))
+        self.assertFalse(r.are_siblings(6, 7))
+
+    def test_get_ancestors(self):
+        r = TreeNode(1)
+        r.add_left(2).add_left(4).add_left(7)
+        r.add_right(3)
+        r.left.add_right(5)
+
+        self.assertEqual(r.get_ancestors(7), [1, 2, 4])
+        self.assertEqual(r.get_ancestors(5), [1, 2])
+        self.assertEqual(r.get_ancestors(3), [1])
+        self.assertEqual(r.get_ancestors(1), [])
+        self.assertEqual(r.get_ancestors(None), [])
 
     def test_max(self):
         r = TreeNode(1)

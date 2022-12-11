@@ -1,9 +1,9 @@
 """
 Flyweight lets you fit more objects into RAM by sharing common parts of state between multiple objects,
 instead of keeping all of the data in each object.
-Common parts are stored in a cache or some pool of objects, ready to be reused.
+Common parts are stored in a cache, or some pool of objects, ready to be reused.
 
-GoF diagram:
+:
 ```mermaid
 classDiagram
     class FlyweightFactory {

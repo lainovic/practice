@@ -130,6 +130,55 @@ class TreeNode:
                 return curr.val
             curr = curr.left
 
+    def are_siblings(self, val_a, val_b):
+        if self.left and self.right:
+            print(
+                f"-----> Checking if {val_a} and {val_b} are siblings under '{self}'...")
+            if self.left.val == val_a and self.right.val == val_b or\
+                    self.left.val == val_b and self.right.val == val_a:
+                print(
+                    f"-----> Yep.")
+                return True
+        res = False
+        if self.left:
+            print(f"-----> Going left from '{self}'...")
+            res = res or self.left.are_siblings(val_a, val_b)
+        if self.right:
+            print(f"-----> Going right from '{self}'...")
+            res = res or self.right.are_siblings(val_a, val_b)
+        if res is False:
+            print(f"-----> Nope, not under '{self}'.")
+        return res
+
+    def get_ancestors(self, target):
+        res = []
+
+        def helper(node):
+            if node is None:
+                print(f"-----> Dead end, going back.")
+                return False
+            if node.val == target:
+                print(f"-----> Found {target}, the ancestors are: {res}.")
+                return True
+            print(f"-----> Adding {node.val}.")
+            res.append(node.val)
+            print(f"-----> Going left from {node.val}...")
+            if helper(node.left):
+                return True
+            print(f"-----> Going right from {node.val}...")
+            if helper(node.right):
+                return True
+            print(f"-----> Removing {node.val}.")
+            res.pop()
+            return False
+
+        if target is None:
+            print(f"-----> Given invalid target {target}, returning {res}.")
+            return res
+        print(f"-----> Finding ancestors of {target}...")
+        helper(self)
+        return res
+
     def __str__(self) -> str:
         out = f"{self.val}"
         children = []
@@ -146,6 +195,22 @@ class TreeNode:
         return self.val == other.val \
             and self.left == other.left \
             and self.right == other.right
+
+    def __contains__(self, val) -> bool:
+        print(f"-----> Checking if '{self}' contains {val}.")
+        if self.val == val:
+            print(f"-----> Found {val}.")
+            return True
+        res = False
+        if self.left:
+            print(f"-----> Going left from '{self}'...")
+            res = res or self.left.__contains__(val)
+        if self.right:
+            print(f"-----> Going right from '{self}'...")
+            res = res or self.right.__contains__(val)
+        if res is False:
+            print(f"-----> {val} not found.")
+        return res
 
     def get_values_at_distance(self, k):
         res = []

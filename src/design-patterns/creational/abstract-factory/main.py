@@ -1,7 +1,7 @@
 """
 The Abstract Factory Pattern lets you produce families of related objects without specifying their concrete classes.
 
-GoF diagram:
+:
 ```mermaid
 classDiagram
     class AbstractFactory {

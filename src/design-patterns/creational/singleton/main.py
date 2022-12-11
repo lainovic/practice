@@ -1,7 +1,7 @@
 """
 The Singleton Pattern is useful when exactly one object is needed to coordinate actions across a system.
 
-GoF diagram:
+:
 ```mermaid
 classDiagram
 class Singleton {

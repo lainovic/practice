@@ -45,16 +45,23 @@ class HashMap:
         print(
             f"-----> [DEBUG][CREATE/UPDATE] Created a new entry ({key}, {value}) and appended it to the existing entry at index {idx}.")
 
-    def get(self, key):
+    def get(self, key, default_value=None):
         entry = self._get_entry(key)
         if entry is None:
-            raise KeyNotFoundError(f"-----> [DEBUG][GET] Key {key} not found.")
+            print(f"-----> [DEBUG][GET] Key {key} not found.")
+            if default_value is None:
+                raise KeyNotFoundError(f"Key {key} not found.")
+            self.put(key, default_value)
+            return default_value
         print(
             f"-----> [DEBUG][GET] Key {key} found -> {entry.val}.")
         return entry.val
 
     def contains(self, key):
         return True if self._get_entry(key) is not None else False
+
+    def __contains__(self, key):
+        return self.contains(key)
 
     def remove(self, key):
         idx = self._hash(key)
@@ -72,3 +79,9 @@ class HashMap:
             prev = entry
             entry = entry.next
         print(f"-----> [DEBUG][REMOVE] Key {key} not found.")
+
+    def __getitem__(self, key):
+        return self.get(key)
+
+    def __setitem__(self, key, value):
+        return self.put(key, value)

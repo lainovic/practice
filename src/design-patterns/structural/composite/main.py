@@ -2,7 +2,7 @@
 Composite Pattern lets you compose objects into tree structures,
 and then treat these structures as if they were the same objects themselves.
 
-GoF diagram:
+:
 ```mermaid
 classDiagram
     class Component {

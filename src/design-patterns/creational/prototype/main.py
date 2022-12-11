@@ -4,7 +4,7 @@ prototype is used when there could be any possible implementation of some interf
 and you just want to obtain a new object of exactly the same implementation,
 without resorting to some weird casting and checking methods.
 
-GoF diagram:
+:
 ```mermaid
 classDiagram
     Client..>Prototype

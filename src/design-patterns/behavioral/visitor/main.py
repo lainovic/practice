@@ -16,9 +16,6 @@
 
 from abc import ABC, abstractmethod
 from typing import List
-from wave import WAVE_FORMAT_PCM, Wave_read
-
-from regex import F
 
 
 class HTMLNode(ABC):
